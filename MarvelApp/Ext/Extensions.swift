@@ -11,6 +11,20 @@ import var CommonCrypto.CC_MD5_DIGEST_LENGTH
 import func CommonCrypto.CC_MD5
 import typealias CommonCrypto.CC_LONG
 
+//MARK: - EXTENSION DATA PROVIDER API KEYS
+
+extension DataProvider {
+    
+    enum ApiKeys {
+        
+        static let BASE_URL = "https://gateway.marvel.com:443/v1/public/characters?"
+        static let API_KEY = "0ecb2efd9039475d8d69e0caa59022b9"//PUBLIC KEY
+        static let PRIVATE_KEY = "0913068b512e6a4dfb4460d69f95c507421c2ac8"
+        
+    }
+    
+}
+
 //MARK: - EXTENSION FOR HASH STRING
 extension String {
 

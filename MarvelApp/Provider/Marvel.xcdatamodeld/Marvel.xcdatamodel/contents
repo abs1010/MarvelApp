@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DataClassCoreData" representedClassName="DataClassCoreData" syncable="YES" codeGenerationType="class">
+        <attribute name="count" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="limit" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="offset" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="results" optional="YES" attributeType="Transformable"/>
+        <attribute name="total" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="ResultCD" representedClassName="ResultCD" syncable="YES" codeGenerationType="class">
+        <attribute name="comics" optional="YES" attributeType="Transformable"/>
+        <attribute name="events" optional="YES" attributeType="Transformable"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="modified" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="resourceURI" optional="YES" attributeType="String"/>
+        <attribute name="resultDescription" optional="YES" attributeType="String"/>
+        <attribute name="series" optional="YES" attributeType="Transformable"/>
+        <attribute name="stories" optional="YES" attributeType="Transformable"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Transformable"/>
+        <attribute name="urls" optional="YES" attributeType="Transformable"/>
+    </entity>
+    <elements>
+        <element name="DataClassCoreData" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="ResultCD" positionX="-54" positionY="-9" width="128" height="208"/>
+    </elements>
+</model>

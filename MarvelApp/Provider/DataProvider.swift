@@ -15,12 +15,12 @@ enum ResponseError: Error{
 
 struct DataProvider {
     
-    private let BASE_URL = "https://gateway.marvel.com:443/v1/public/characters?"
+    private let BASE_URL = ApiKeys.BASE_URL
     private let resourceURL:URL
     var limit = 20
     var offset = 0
-    let API_KEY = "0ecb2efd9039475d8d69e0caa59022b9"//PUBLIC KEY
-    let PRIVATE_KEY = "0913068b512e6a4dfb4460d69f95c507421c2ac8"
+    let API_KEY = ApiKeys.API_KEY
+    let PRIVATE_KEY = ApiKeys.PRIVATE_KEY
     let ts = Date().currentTimeMillis()
     
     init(offset: Int) {
@@ -36,38 +36,27 @@ struct DataProvider {
     }
     
     //MARK: - GETTING THE DATA FROM SERVER
-    func getCharactersPerPage(completion: @escaping(DataClass) -> Void) {
+    func getCharactersPerPage(completion: @escaping(Result<DataClass, ResponseError>) -> Void) {
         
         URLSession.shared.dataTask(with: self.resourceURL) { data, _, _ in
             
             guard let jsonData = data else {
-                //set delegate for failure
-                //completion(nil, ResponseError.noDataAvailable)
+                print("===Error on fetching data (no data could be retrieved===")
+                completion(.failure(.noDataAvailable))
                 return
             }
             
             do{
                 let requestResults = try JSONDecoder().decode(MarvelHeader.self, from: jsonData)
                 
-                print(requestResults.data.results)
-                completion(requestResults.data)
+                print("===Success on Parsing json data===")
+                completion(.success(requestResults.data))
             }catch{
-                //completion(ResponseError.canNotProccessData)
+                print("===Error on parsing json data===")
+                completion(.failure(.canNotProccessData))
             }
             
         }.resume()
-        
-    }
-    
-}
-
-extension DataProvider {
-    
-    enum Constants {
-        
-        static let BASE_URL = "https://gateway.marvel.com:443/v1/public/characters?"
-        static let API_KEY = "0ecb2efd9039475d8d69e0caa59022b9"//PUBLIC KEY
-        static let PRIVATE_KEY = "0913068b512e6a4dfb4460d69f95c507421c2ac8"
         
     }
     

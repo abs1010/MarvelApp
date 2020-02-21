@@ -18,12 +18,12 @@ struct MarvelHeader: Codable {
 
 // MARK: - DataClass
 struct DataClass: Codable {
-    let offset, limit, total, count: Int?
-    let results: [Result]
+    let offset, limit, total, count: Int
+    let results: [CharactersElement]
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct CharactersElement: Codable {
     let id: Int?
     let name, resultDescription: String?
     let modified: String? //Date
