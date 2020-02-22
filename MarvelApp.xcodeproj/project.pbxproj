@@ -23,6 +23,8 @@
 		BC63DA5023FF648300292E1C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA4F23FF648300292E1C /* BaseViewController.swift */; };
 		BC63DA552400597E00292E1C /* CharactersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA542400597E00292E1C /* CharactersController.swift */; };
 		BC63DA572400637600292E1C /* LocalCharactersData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA562400637600292E1C /* LocalCharactersData.swift */; };
+		BC63DA68240186AE00292E1C /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC63DA66240186AE00292E1C /* CustomCollectionViewCell.xib */; };
+		BC63DA69240186AE00292E1C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA67240186AE00292E1C /* CustomCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		BC63DA4F23FF648300292E1C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BC63DA542400597E00292E1C /* CharactersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersController.swift; sourceTree = "<group>"; };
 		BC63DA562400637600292E1C /* LocalCharactersData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCharactersData.swift; sourceTree = "<group>"; };
+		BC63DA66240186AE00292E1C /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
+		BC63DA67240186AE00292E1C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECDED0E514214C39EC8A41DF /* Pods-MarvelAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelAppTests.release.xcconfig"; path = "Target Support Files/Pods-MarvelAppTests/Pods-MarvelAppTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +167,7 @@
 				BC63DA1B23FB4AEE00292E1C /* Main.storyboard */,
 				BC63DA1923FB4AEE00292E1C /* ViewController.swift */,
 				BC63DA4F23FF648300292E1C /* BaseViewController.swift */,
+				BC63DA582400CF0600292E1C /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -199,6 +204,15 @@
 				BC63DA542400597E00292E1C /* CharactersController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		BC63DA582400CF0600292E1C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BC63DA67240186AE00292E1C /* CustomCollectionViewCell.swift */,
+				BC63DA66240186AE00292E1C /* CustomCollectionViewCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		CF5D9AF2A08765EFADC6E406 /* Frameworks */ = {
@@ -295,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC63DA68240186AE00292E1C /* CustomCollectionViewCell.xib in Resources */,
 				BC63DA2223FB4AF100292E1C /* LaunchScreen.storyboard in Resources */,
 				BC63DA1F23FB4AF100292E1C /* Assets.xcassets in Resources */,
 				BC63DA1D23FB4AEE00292E1C /* Main.storyboard in Resources */,
@@ -386,6 +401,7 @@
 				BC63DA5023FF648300292E1C /* BaseViewController.swift in Sources */,
 				BC63DA3F23FE2E4800292E1C /* Characters.swift in Sources */,
 				BC63DA1623FB4AEE00292E1C /* AppDelegate.swift in Sources */,
+				BC63DA69240186AE00292E1C /* CustomCollectionViewCell.swift in Sources */,
 				BC63DA572400637600292E1C /* LocalCharactersData.swift in Sources */,
 				BC63DA552400597E00292E1C /* CharactersController.swift in Sources */,
 				BC63DA1823FB4AEE00292E1C /* SceneDelegate.swift in Sources */,
@@ -480,7 +496,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -534,7 +550,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
