@@ -32,26 +32,34 @@ class DataClassRealm : Object {
 
 class CharactersElementRealm : Object {
     @objc dynamic var id : Int = 0
+    @objc dynamic var favorite : Bool = false
     @objc dynamic var name : String = ""
     @objc dynamic var resultDescription : String = ""
     @objc dynamic var modified : String = ""
     @objc dynamic var thumbnail : String = ""//thumbnail + extension
     @objc dynamic var resourceURI : String = ""
     
-    let comics = List<ContainersRealm>()
-    let series = List<ContainersRealm>()
-    let events = List<ContainersRealm>()
-    let stories = List<ContainersStoriesRealm>()
-    let urls = List<URLElementRealm>()
-    
-}
+    @objc dynamic var comicsAvailable : Int = 0
+    @objc dynamic var comicsCollectionURI : String = ""
+    @objc dynamic var comicsReturned : Int = 0
+    let comicsItems = List<containerItemRealm>()
 
-class ContainersRealm : Object {
-    @objc dynamic var available : Int = 0
-    @objc dynamic var collectionURI : String = ""
-    @objc dynamic var returned : Int = 0
+    @objc dynamic var seriesAvailable : Int = 0
+    @objc dynamic var seriesCollectionURI : String = ""
+    @objc dynamic var seriesReturned : Int = 0
+    let seriesItems = List<containerItemRealm>()
+
+    @objc dynamic var eventsAvailable : Int = 0
+    @objc dynamic var eventsCollectionURI : String = ""
+    @objc dynamic var eventsReturned : Int = 0
+    let eventItems = List<containerItemRealm>()
+
+    @objc dynamic var storiesAvailable : Int = 0
+    @objc dynamic var storiesCollectionURI : String = ""
+    @objc dynamic var storiesReturned : Int = 0
+    let storieItems = List<storiesContainerItemRealm>()
     
-    let items = List<containerItemRealm>()
+    let urls = List<URLElementRealm>()
     
 }
 
@@ -60,17 +68,8 @@ class containerItemRealm : Object {
     @objc dynamic var name : String = ""
 }
 
-//===
 
-class ContainersStoriesRealm : Object {
-    @objc dynamic var available : Int = 0
-    @objc dynamic var collectionURI : String = ""
-    @objc dynamic var returned : Int = 0
-    
-    let items = List<containerStoriesRealm>()
-}
-
-class containerStoriesRealm : Object {
+class storiesContainerItemRealm : Object {
     @objc dynamic var resourceURI : String = ""
     @objc dynamic var name : String = ""
     @objc dynamic var type : String = ""

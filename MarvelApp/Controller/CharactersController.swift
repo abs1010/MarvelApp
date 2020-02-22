@@ -65,9 +65,106 @@ class CharactersController {
             charactersElementRealm.name = result.name ?? ""
             charactersElementRealm.resultDescription = result.resultDescription ?? ""
             charactersElementRealm.modified = result.modified ?? ""
-            //thumbnail
+            
+            let path = result.thumbnail?.path ?? ""
+            if let thumbnailExtension = result.thumbnail?.thumbnailExtension {
+                charactersElementRealm.thumbnail = "\(path).\(String(describing: thumbnailExtension))"
+            }
+            
             charactersElementRealm.resourceURI = result.resourceURI ?? ""
             
+            //comics
+            charactersElementRealm.comicsAvailable = result.comics?.available ?? 0
+            charactersElementRealm.comicsCollectionURI = result.comics?.collectionURI ?? ""
+            charactersElementRealm.comicsReturned = result.comics?.returned ?? 0
+            
+            guard let countComics = result.comics?.items?.count else { return }
+                
+                var num = 0
+                while countComics > num {
+                    
+                    let object = result.comics?.items?[num]
+                    let container = containerItemRealm()
+                    
+                    container.resourceURI = object?.resourceURI ?? ""
+                    container.name = object?.name ?? ""
+                    
+                    charactersElementRealm.comicsItems.append(container)
+                    
+                    num += 1
+                        
+                }
+            
+            //series
+            charactersElementRealm.seriesAvailable = result.series?.available ?? 0
+            charactersElementRealm.seriesCollectionURI = result.series?.collectionURI ?? ""
+            charactersElementRealm.seriesReturned = result.series?.returned ?? 0
+
+            guard let countSeries = result.series?.items?.count else { return }
+                
+                var numSeries = 0
+                while countSeries > numSeries {
+                    
+                    let object = result.series?.items?[numSeries]
+                    let container = containerItemRealm()
+                    
+                    container.resourceURI = object?.resourceURI ?? ""
+                    container.name = object?.name ?? ""
+                    
+                    charactersElementRealm.seriesItems.append(container)
+                    
+                    numSeries += 1
+                        
+                }
+            
+            //stories
+            charactersElementRealm.storiesAvailable = result.stories?.available ?? 0
+            charactersElementRealm.storiesCollectionURI = result.stories?.collectionURI ?? ""
+            charactersElementRealm.storiesReturned = result.stories?.returned ?? 0
+
+            guard let countStories = result.stories?.items?.count else { return }
+
+                var numStories = 0
+                while countStories > numStories {
+
+                    let object = result.stories?.items?[numStories]
+                    let container = storiesContainerItemRealm()
+
+                    container.resourceURI = object?.resourceURI ?? ""
+                    container.name = object?.name ?? ""
+                    container.type = (object?.type).map { $0.rawValue } ?? ""
+
+                    charactersElementRealm.storieItems.append(container)
+
+                    numStories += 1
+
+                }
+            
+            //events
+            charactersElementRealm.eventsAvailable = result.events?.available ?? 0
+            charactersElementRealm.eventsCollectionURI = result.events?.collectionURI ?? ""
+            charactersElementRealm.eventsReturned = result.events?.returned ?? 0
+
+            guard let countEvents = result.series?.items?.count else { return }
+                
+                var numEvents = 0
+                while countEvents > numEvents {
+                    
+                    let object = result.series?.items?[numEvents]
+                    let container = containerItemRealm()
+                    
+                    container.resourceURI = object?.resourceURI ?? ""
+                    container.name = object?.name ?? ""
+                    
+                    charactersElementRealm.eventItems.append(container)
+                    
+                    numEvents += 1
+                        
+                }
+            
+            //urls
+            
+            //SAVE ALL DATA
             do {
                 
                 try realm.write {
@@ -82,8 +179,6 @@ class CharactersController {
             
         }//for
         
-        //self.tableView.reloadData()
-        
     }
     
     static func removellAllDataFromRealm(){
@@ -92,11 +187,11 @@ class CharactersController {
         let allObjects = realm.objects(CharactersElementRealm.self)
         
         //DispatchQueue.main.async {
-            
-            try! realm.write {
-                realm.delete(allObjects)
-            }
-            print("===all data from realm has been removed===")
+        
+        try! realm.write {
+            realm.delete(allObjects)
+        }
+        print("===all data from realm has been removed===")
         //}
         
     }
