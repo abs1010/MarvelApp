@@ -19,10 +19,12 @@ class ViewController: BaseViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //Initializes the controller and makes the first request
         controller.setupController(offSet: 20)
         
         self.controller.delegate = self
         
+        //CollectionView Methods
         self.charactersCollectionView.delegate = self
         self.charactersCollectionView.dataSource = self
         
@@ -30,7 +32,6 @@ class ViewController: BaseViewController {
         self.charactersCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
         
         setLayout()
-        
         startActivityIndicator()
     }
     
@@ -41,6 +42,34 @@ class ViewController: BaseViewController {
         layout.minimumInteritemSpacing = 15
         layout.minimumLineSpacing = 15
         layout.itemSize = CGSize(width: self.charactersCollectionView.frame.size.width - 20/2, height: self.charactersCollectionView.frame.size.height / 3)
+        
+    }
+ 
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == DetailsViewController.identifier {
+            
+            if let vc: DetailsViewController = segue.destination as? DetailsViewController {
+  
+                
+            if let indexPath = charactersCollectionView.indexPathsForSelectedItems {
+                print("Clicou no \(indexPath[0].item)")
+                vc.selectedCharacter = self.controller.getCharacterWithIndexPathItem(index: indexPath[0])
+                
+            }
+//                if let indexPath = charactersCollectionView.indexPathsForSelectedItems {
+//                    vc.selectedCharacter = self.controller.getCharacterWithIndexPathItem(index: indexPath[0].item)
+//                }
+                
+            }
+            
+        }
+        
+    }
+    
+    @IBAction func getMoreData(_ sender: UIBarButtonItem) {
+        
         
     }
     
@@ -56,18 +85,33 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.cell, for: indexPath) as! CustomCollectionViewCell
         
-        cell.characterProfile = self.controller.getCharacterWithIndexPath(_index: indexPath)
+        cell.characterProfile = self.controller.getCharacterWithIndexPath(indexPath)
         
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         let padding: CGFloat =  50
         let collectionViewSize = collectionView.frame.size.width - padding
-
+        
         return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        print(controller.indexIsLast(indexPath.item))
+        
+        controller.requestAnotherPage(currentCounter: indexPath.item)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
+        
     }
     
 }
@@ -75,10 +119,11 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
 //MARK: - EXTENSION OF VIEWCONTROLLER (CONTROLLERDELEGATE)
 extension ViewController : CharactersControllerDelegate {
     
-    func successOnFethingCharactersOfPageOffet(offset: Int) {
+    func successOnFethingCharactersOfPageOffet() {
         
         DispatchQueue.main.async {
             self.charactersCollectionView.reloadData()
+            
             self.stopActivityIndicator()
         }
         

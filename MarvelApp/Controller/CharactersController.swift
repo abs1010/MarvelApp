@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 protocol CharactersControllerDelegate : class {
-    func successOnFethingCharactersOfPageOffet(offset: Int)
+    func successOnFethingCharactersOfPageOffet()
     func errorOnFethingCharacters(error: Error)
 }
 
@@ -20,6 +20,9 @@ class CharactersController {
     
     let realm = try! Realm()
     
+    private var contador : Int = 20
+    private var totalItensAllowed : Int = 0
+    
     private var provider: DataProvider?
     
     weak var delegate : CharactersControllerDelegate?
@@ -27,7 +30,9 @@ class CharactersController {
     func setupController(offSet: Int){
         
         self.provider = DataProvider(offset: offSet)
+        
         self.loadNewPageOfCharacters()
+        
     }
     
     private func loadUpCharacters(){
@@ -46,12 +51,63 @@ class CharactersController {
         
     }
     
-    func getCharacterWithIndexPath(_index: IndexPath) -> CharactersElementRealm {
+    func getCharacterWithIndexPath(_ index: IndexPath) -> CharactersElementRealm {
         
-        return (self.charactersArray?[_index.row])!
+        return (self.charactersArray?[index.row])!
         //Treat force unwrap later
+    }
+
+    func getCharacterWithIndexPathItem(index: IndexPath) -> CharactersElementRealm {
+
+        return (self.charactersArray?[0])!
+        
+        //Treat force unwrap later
+    }
+    
+    func requestAnotherPage(currentCounter: Int){
+        
+        if shouldFetchAgain(currentCounter) {
+            
+            //        if currentCounter >= 80 {
+            //            print("Cannot make more requests, You've gotten to the end of the list")
+            //
+            //        }
+            
+            print("Hora de Fazer nova request")
+            
+            self.provider = DataProvider(offset: contador)
+            
+            self.loadNewPageOfCharacters()
+            
+        }
         
     }
+    
+    private func shouldFetchAgain(_ index: Int) -> Bool {
+        
+        guard let amount = charactersArray?.count else { return false }
+        
+        if index == (amount - 4) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    func indexIsLast(_ index: Int) -> String {
+        
+        guard let amount = charactersArray?.count else { return "" }
+        
+        if index == (amount - 4) {
+            return "true \(index)-\(charactersArray?.count)"
+        }
+        else {
+            return "false \(index)-\(charactersArray?.count)"
+        }
+        
+    }
+    
     
     //
     
@@ -63,13 +119,15 @@ class CharactersController {
                 
             case .success(let dataClassOk):
                 print("===Success on fetching data for offset: \(dataClassOk.offset)===")
-                print("\(dataClassOk.results.count) results")
                 
                 DispatchQueue.main.async {
                     self?.saveCharactersLocally(dataClassOk)
                     self?.loadUpCharacters()
-                    self?.delegate?.successOnFethingCharactersOfPageOffet(offset: 80)
+                    self?.delegate?.successOnFethingCharactersOfPageOffet()
+                    self?.contador = dataClassOk.offset + dataClassOk.limit
                 }
+                //Total of possible Items
+                self?.totalItensAllowed = dataClassOk.total
                 
             case .failure(let resultFail):
                 print(resultFail.localizedDescription)
@@ -211,13 +269,22 @@ class CharactersController {
     static func removellAllDataFromRealm(){
         
         let realm = try! Realm()
+        
         let allObjects = realm.objects(CharactersElementRealm.self)
-        
-        //DispatchQueue.main.async {
-        
         try! realm.write {
             realm.delete(allObjects)
         }
+
+        let allObjects1 = realm.objects(containerItemRealm.self)
+        try! realm.write {
+            realm.delete(allObjects1)
+        }
+        
+        let allObjects2 = realm.objects(storiesContainerItemRealm.self)
+        try! realm.write {
+            realm.delete(allObjects2)
+        }
+
         print("===all data from realm has been removed===")
         
     }

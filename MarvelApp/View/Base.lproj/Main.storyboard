@@ -38,9 +38,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house.fill" id="GwY-kN-daW"/>
-                    <navigationItem key="navigationItem" title="Marvel Characters" largeTitleDisplayMode="always" id="PwB-BW-3kD"/>
+                    <navigationItem key="navigationItem" title="Marvel Characters" largeTitleDisplayMode="always" id="PwB-BW-3kD">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="arrow.clockwise" catalog="system" id="jhf-Yv-bCc">
+                            <connections>
+                                <action selector="getMoreData:" destination="BYZ-38-t0r" id="fY2-K7-g3Y"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="charactersCollectionView" destination="VoW-AH-8Nn" id="1gN-Ca-miE"/>
+                        <segue destination="ZFd-CJ-UVZ" kind="show" identifier="goToDetails" id="Esi-dK-gyb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -141,8 +148,48 @@
             </objects>
             <point key="canvasLocation" x="428" y="892"/>
         </scene>
+        <!--Details View Controller-->
+        <scene sceneID="sJb-yn-RsG">
+            <objects>
+                <viewController id="ZFd-CJ-UVZ" customClass="DetailsViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s9p-mw-Jnh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MarvelLogo" translatesAutoresizingMaskIntoConstraints="NO" id="ogn-ht-8us">
+                                <rect key="frame" x="0.0" y="88" width="375" height="250"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Qi-UZ-AXN">
+                                <rect key="frame" x="34" y="346" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RNe-Ff-o1V">
+                                <rect key="frame" x="0.0" y="402" width="375" height="316"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6El-IB-fkw"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MgR-w0-rMo"/>
+                    <connections>
+                        <outlet property="myImageView" destination="ogn-ht-8us" id="80n-VA-yvW"/>
+                        <outlet property="nameLabel" destination="5Qi-UZ-AXN" id="3iY-yR-v2j"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VNu-RY-gQT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="45.600000000000001" y="1700.9852216748768"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="MarvelLogo" width="1200" height="482"/>
+        <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
         <image name="house" catalog="system" width="64" height="54"/>
         <image name="house.fill" catalog="system" width="64" height="52"/>
         <image name="star" catalog="system" width="64" height="58"/>

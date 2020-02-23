@@ -25,6 +25,7 @@
 		BC63DA572400637600292E1C /* LocalCharactersData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA562400637600292E1C /* LocalCharactersData.swift */; };
 		BC63DA68240186AE00292E1C /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC63DA66240186AE00292E1C /* CustomCollectionViewCell.xib */; };
 		BC63DA69240186AE00292E1C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC63DA67240186AE00292E1C /* CustomCollectionViewCell.swift */; };
+		BC66AF502402240900375C63 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC66AF4F2402240900375C63 /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		BC63DA562400637600292E1C /* LocalCharactersData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCharactersData.swift; sourceTree = "<group>"; };
 		BC63DA66240186AE00292E1C /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
 		BC63DA67240186AE00292E1C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		BC66AF4F2402240900375C63 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		ECDED0E514214C39EC8A41DF /* Pods-MarvelAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelAppTests.release.xcconfig"; path = "Target Support Files/Pods-MarvelAppTests/Pods-MarvelAppTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 			children = (
 				BC63DA1B23FB4AEE00292E1C /* Main.storyboard */,
 				BC63DA1923FB4AEE00292E1C /* ViewController.swift */,
+				BC66AF4F2402240900375C63 /* DetailsViewController.swift */,
 				BC63DA4F23FF648300292E1C /* BaseViewController.swift */,
 				BC63DA582400CF0600292E1C /* Cell */,
 			);
@@ -405,6 +408,7 @@
 				BC63DA572400637600292E1C /* LocalCharactersData.swift in Sources */,
 				BC63DA552400597E00292E1C /* CharactersController.swift in Sources */,
 				BC63DA1823FB4AEE00292E1C /* SceneDelegate.swift in Sources */,
+				BC66AF502402240900375C63 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
