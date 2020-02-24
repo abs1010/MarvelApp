@@ -22,6 +22,7 @@ class CharactersController {
     
     private var contador : Int = 20
     private var totalItensAllowed : Int = 0
+    private var selectedIndex: Int = 0
     
     private var provider: DataProvider?
     
@@ -39,11 +40,7 @@ class CharactersController {
         
         self.charactersArray = realm.objects(CharactersElementRealm.self)
         
-        //reloadData() da tableView
-        
     }
-    
-    //
     
     func getNumberOfRows() -> Int{
         
@@ -57,16 +54,21 @@ class CharactersController {
         //Treat force unwrap later
     }
 
-    func getCharacterWithIndexPathItem(index: IndexPath) -> CharactersElementRealm {
-
-        return (self.charactersArray?[0])!
+    func saveIndexSelected(index: Int) {
         
-        //Treat force unwrap later
+        self.selectedIndex = index
+
+    }
+    
+    func getCharacterWithIndexPathFromItem() -> CharactersElementRealm {
+        
+        return (self.charactersArray?[self.selectedIndex])!
+        
     }
     
     func requestAnotherPage(currentCounter: Int){
         
-        if shouldFetchAgain(currentCounter) {
+      //  if shouldFetchAgain(currentCounter) {
             
             //        if currentCounter >= 80 {
             //            print("Cannot make more requests, You've gotten to the end of the list")
@@ -79,7 +81,7 @@ class CharactersController {
             
             self.loadNewPageOfCharacters()
             
-        }
+       // }
         
     }
     

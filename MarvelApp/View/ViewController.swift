@@ -44,23 +44,15 @@ class ViewController: BaseViewController {
         layout.itemSize = CGSize(width: self.charactersCollectionView.frame.size.width - 20/2, height: self.charactersCollectionView.frame.size.height / 3)
         
     }
- 
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == DetailsViewController.identifier {
             
             if let vc: DetailsViewController = segue.destination as? DetailsViewController {
-  
                 
-            if let indexPath = charactersCollectionView.indexPathsForSelectedItems {
-                print("Clicou no \(indexPath[0].item)")
-                vc.selectedCharacter = self.controller.getCharacterWithIndexPathItem(index: indexPath[0])
-                
-            }
-//                if let indexPath = charactersCollectionView.indexPathsForSelectedItems {
-//                    vc.selectedCharacter = self.controller.getCharacterWithIndexPathItem(index: indexPath[0].item)
-//                }
+                vc.selectedCharacter = self.controller.getCharacterWithIndexPathFromItem()
                 
             }
             
@@ -70,6 +62,9 @@ class ViewController: BaseViewController {
     
     @IBAction func getMoreData(_ sender: UIBarButtonItem) {
         
+        //CREATE A TEMP METHOD TO CALL THE CLOSURE
+        
+        self.controller.requestAnotherPage(currentCounter: 40)
         
     }
     
@@ -104,12 +99,13 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         
         print(controller.indexIsLast(indexPath.item))
         
-        controller.requestAnotherPage(currentCounter: indexPath.item)
+        //controller.requestAnotherPage(currentCounter: indexPath.item)
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        self.controller.saveIndexSelected(index: indexPath.row)
         performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
         
     }

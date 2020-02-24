@@ -10,43 +10,91 @@ import UIKit
 import SDWebImage
 
 class DetailsViewController: BaseViewController {
-
+    
     static let identifier = "goToDetails"
     
-    var selectedCharacter : CharactersElementRealm? {
-     
-        didSet{
+    var selectedCharacter : CharactersElementRealm?
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var detailImageView: UIImageView!
+    @IBOutlet weak var detailTableView: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.detailTableView.delegate = self
+        self.detailTableView.dataSource = self
+        
+        setupCell()
+        
+    }
+    
+    func setupCell() {
+        
+        title = self.selectedCharacter?.name
+        
+        self.descriptionLabel.text = selectedCharacter?.resultDescription
+        
+        if let imagem = selectedCharacter?.thumbnail {
+            self.detailImageView.sd_setImage(with: URL(string: ("\(imagem)")), placeholderImage: UIImage(named: "MarvelLogo"))
+        }
+        
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+        
+        navBar.prefersLargeTitles = true
+    }
+    
+}
+
+
+// MARK: - Table view data source
+extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        var nSection : Int = 0
+        
+        if let comics = self.selectedCharacter?.comicsItems.count {
+            if comics > 0 {
+                nSection += 1
+            }
+        }
+        
+        if let series = self.selectedCharacter?.seriesItems.count {
+            if series > 0 {
+                nSection += 1
+            }
+        }
+        
+        return nSection
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 0 {
             
-            self.nameLabel.text = selectedCharacter?.name
-            self.myImageView.sd_setImage(with: URL(string: ("\(selectedCharacter?.thumbnail)")), placeholderImage: UIImage(named: "MarvelLogo"))
+            return self.selectedCharacter?.comicsItems.count ?? 0
+            
+        }
+        if section == 1 {
+            
+            return self.selectedCharacter?.seriesItems.count ?? 0
+        }
+        
+        else {
+            
+            return 0
             
         }
         
     }
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var myImageView: UIImageView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        //self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        return UITableViewCell()
+        
     }
-
-    // MARK: - Table view data source
-
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
+    
 }
