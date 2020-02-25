@@ -8,13 +8,15 @@
 
 import UIKit
 import SDWebImage
+import RealmSwift
 
 class DetailsViewController: BaseViewController {
     
     static let identifier = "goToDetails"
     
     var selectedCharacter : CharactersElementRealm?
-    
+    var indexPath : Int?
+    let realm = try! Realm()
     var controller : CharactersController?
     
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -24,6 +26,7 @@ class DetailsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.controller = CharactersController()
         
         self.detailTableView.delegate = self
         self.detailTableView.dataSource = self
@@ -36,60 +39,30 @@ class DetailsViewController: BaseViewController {
     }
     
     @IBAction func tapOnFavorite(_ sender: UIBarButtonItem) {
-    
-        //verifica status fav / percorre o array e verifica se existe
         
-        if (self.controller?.isFavorite(id: self.selectedCharacter?.id ?? 0))! {
+        if let item = self.selectedCharacter {
             
-            let alerta = UIAlertController(title: "Aviso", message: "Personagem removido dos favoritos.", preferredStyle: .alert)
-            let btnOk = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            let icon = item.favorite ? "favoritado" : "nao favorite"
+            print("====Favorite Status Changed on Realm ====")
+            print(icon)
             
-            alerta.addAction(btnOk)
-            
-            self.present(alerta, animated: true)
-            
-            if let removeId = self.selectedCharacter?.id {
-                
-                self.controller?.removeFavoriteCharacter(id: removeId)
-                
+            do{
+                try realm.write {
+                    item.favorite = !item.favorite
+                }
+            }
+            catch{
+                print("Erro ao remover registro : \(error)")
             }
             
-            self.setFavButtonStatus()
-            
-        }
-        else {
-            
-            let alerta = UIAlertController(title: "Salvo", message: "Filme \(self.selectedCharacter?.name ?? "") salvo nos favoritos.", preferredStyle: .alert)
-            let btnOk = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            
-            alerta.addAction(btnOk)
-            
-            self.present(alerta, animated: true)
-            
-            if let selectedCharac = self.selectedCharacter {
-                self.controller?.saveFavoriteCharacter(character:  selectedCharac)
-            }
-            
-            self.setFavButtonStatus()
-            
+            setStarStatus()
         }
         
-    
-    }
-    
-    func setFavButtonStatus(){
-        if let resp = self.controller?.isFavorite(id: selectedCharacter?.id ?? 0) {
-            
-            if resp == true {
-                self.starButton.image = UIImage(named: "MarvelLogo")
-            }
-            else{
-                //self.starButton.setImage(#imageLiteral(resourceName: "emptyHeart_icon") , for: .normal)
-            }
-        }
     }
     
     func setupCell() {
+        
+        setStarStatus()
         
         title = self.selectedCharacter?.name
         
@@ -108,8 +81,20 @@ class DetailsViewController: BaseViewController {
         navBar.prefersLargeTitles = true
     }
     
+    func setStarStatus(){
+        
+        if let item = self.selectedCharacter {
+            if item.favorite {
+                self.navigationItem.rightBarButtonItem?.setBackgroundImage(UIImage(named: "filledStar"), for: .normal, barMetrics: .default)
+            }
+            else{
+                self.navigationItem.rightBarButtonItem?.setBackgroundImage(UIImage(named: "emptyStar"), for: .normal, barMetrics: .default)
+            }
+        }
+        
+    }
+    
 }
-
 
 // MARK: - Table view data source
 extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
@@ -186,16 +171,17 @@ extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
         let cell : ResourcesTableViewCell = tableView.dequeueReusableCell(withIdentifier: ResourcesTableViewCell.cell, for: indexPath) as! ResourcesTableViewCell
         
         
-        switch indexPath.section {
-        case 0:
-            cell.nameLabel.text = self.selectedCharacter?.comicsItems[indexPath.row].name
-        case 1:
-            cell.nameLabel.text = self.selectedCharacter?.seriesItems[indexPath.row].name
-        default :
-            break
-        }
+        let name = indexPath.section == 0 ? self.selectedCharacter?.comicsItems[indexPath.row].name : self.selectedCharacter?.seriesItems[indexPath.row].name
+        
+        cell.nameLabel.text = name
         
         return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
         
     }
     

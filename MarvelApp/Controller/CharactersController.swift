@@ -17,11 +17,11 @@ protocol CharactersControllerDelegate : class {
 class CharactersController {
     
     var charactersArray : Results<CharactersElementRealm>?
+    var favoriteCharactersArray : Results<CharactersElementRealm>?
     
     let realm = try! Realm()
     
     private var contador : Int = 0
-    private var totalItensAllowed : Int = 0
     private var selectedIndex: Int = 0
     
     private var provider: DataProvider?
@@ -36,7 +36,7 @@ class CharactersController {
         
     }
     
-    private func loadUpCharacters(){
+    func loadUpCharacters(){
         
         self.charactersArray = realm.objects(CharactersElementRealm.self)
         
@@ -60,6 +60,10 @@ class CharactersController {
         
     }
     
+    func getSelectedIndex() -> Int {
+        return self.selectedIndex
+    }
+    
     func getCharacterWithIndexPathFromItem() -> CharactersElementRealm {
         
         return (self.charactersArray?[self.selectedIndex])!
@@ -68,22 +72,11 @@ class CharactersController {
     
     func requestAnotherPage(currentCounter: Int){
         
-        //  if shouldFetchAgain(currentCounter) {
-        
-        //        if currentCounter >= 80 {
-        //            print("Cannot make more requests, You've gotten to the end of the list")
-        //
-        //        }
-        
         print("Hora de Fazer nova request")
-        
-        //guard let count = self.contador else { return }
         
         self.provider = DataProvider(offset: self.contador)
         
         self.loadNewPageOfCharacters()
-        
-        // }
         
     }
     
@@ -128,12 +121,12 @@ class CharactersController {
                     self?.saveCharactersLocally(dataClassOk)
                     self?.delegate?.successOnFethingCharactersOfPageOffet()
                     self?.loadUpCharacters()
-
+                    
                     self?.contador += 20
                     
                 }
                 //Total of possible Items
-                self?.totalItensAllowed = dataClassOk.total
+                //self?.totalItensAllowed = dataClassOk.total
                 
             case .failure(let resultFail):
                 self?.delegate?.errorOnFethingCharacters(error: resultFail)
@@ -271,40 +264,20 @@ class CharactersController {
         
     }
     
-    //MARK:- CHECK IF OBJECT IS FAVORITE YET
+        //MARK:- CHECK IF OBJECT IS FAVORITE YET
     
-    func isFavorite(id: Int) -> Bool {
-        
-        let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
-        if check.count != 0 {
-            return true
-        }
-        
-        return false
-        
-    }
+        func isFavorite(id: Int) -> Bool {
     
-    func removeFavoriteCharacter(id: Int){
-        
-        let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
-        
-        do{
-            try realm.write {
-                realm.delete(check)
+            let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
+            if check.count != 0 {
+                return true
             }
-        }
-        catch{
-            print("Erro ao remover registro : \(error)")
-        }
-        
-    }
     
-    func saveFavoriteCharacter(character id: CharactersElementRealm?){
-        
-
-        
-    }
+            return false
     
+        }
+    
+    //MARK:- REMOVE ALL DATA FROM REALM MAIN
     
     static func removellAllDataFromRealm(){
         
@@ -326,6 +299,23 @@ class CharactersController {
         }
         
         print("===all data from realm has been removed===")
+        
+    }
+    
+    //MARK: - METHODS OF FAVORITESVIEWCONTROLLER
+    
+    func loadUpFavorites(){
+        
+        self.favoriteCharactersArray = self.charactersArray
+        
+        self.favoriteCharactersArray = favoriteCharactersArray?.filter("favorite CONTAINS[cd] %@true").sorted(byKeyPath: "name", ascending: true)
+        //self.favoriteCharactersArray = favoriteCharactersArray?.filter("favorite CONTAINS[cd] %@", true).sorted(byKeyPath: "name", ascending: true)
+        
+    }
+    
+    func getNumberOfFavorites() -> Int{
+        
+        return self.favoriteCharactersArray?.count ?? 0
         
     }
     

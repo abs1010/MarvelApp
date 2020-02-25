@@ -8,22 +8,35 @@
 
 import UIKit
 import SDWebImage
+import RealmSwift
+
+protocol CustomCollectionViewCellDelegate : class {
+    func setCharacterAsFavorite()
+}
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
+    let realm = try! Realm()
+    
     static let cell = "CustomCollectionViewCell"
+    
+    weak var delegate : CustomCollectionViewCellDelegate?
     
     var characterProfile : CharactersElementRealm! {
         
         didSet {
             self.myLabel.text = characterProfile.name
             self.myImageView.sd_setImage(with: URL(string: ("\(characterProfile.thumbnail)")), placeholderImage: UIImage(named: "MarvelLogo"))
+            let status = characterProfile.favorite ? "filledStar" : "emptyStar"
+            self.starCutton.setImage(UIImage(named: "\(status)"), for: .normal)
         }
         
     }
     
     @IBOutlet weak var myImageView: UIImageView!
     @IBOutlet weak var myLabel: UILabel!
+    @IBOutlet weak var starCutton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,6 +47,46 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
     }
     
+    @IBAction func btnFavorite(_ sender: UIButton) {
+        
+        if let item = self.characterProfile {
+            
+            let icon = item.favorite ? "favoritado" : "nao favorite"
+            print("====Favorite Status Changed on Realm ====")
+            print(icon)
+            
+            do{
+                try realm.write {
+                    item.favorite = !item.favorite
+                }
+            }
+            catch{
+                print("Erro ao remover registro : \(error)")
+            }
+            
+            setStarStatus()
+        }
+        
+        self.delegate?.setCharacterAsFavorite()
+        
+    }
     
+    func setStarStatus(){
+        
+        if let item = self.characterProfile {
+            if item.favorite {
+                
+                self.starCutton.setImage(UIImage(named: "filledStar"), for: .normal)
+                
+            }
+            else{
+                
+                self.starCutton.setImage(UIImage(named: "emptyStar"), for: .normal)
+                
+            }
+            
+        }
+        
+    }
     
 }

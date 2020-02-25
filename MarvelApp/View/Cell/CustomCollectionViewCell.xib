@@ -35,13 +35,16 @@
                         <rect key="frame" x="0.0" y="312" width="236" height="1"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2H-mo-4DP">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2H-mo-4DP">
                         <rect key="frame" x="150" y="212" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="6Ul-HS-4LJ"/>
                             <constraint firstAttribute="width" constant="25" id="euY-cc-EXL"/>
                         </constraints>
-                        <state key="normal" backgroundImage="star" catalog="system"/>
+                        <state key="normal" image="emptyStar"/>
+                        <connections>
+                            <action selector="btnFavorite:" destination="gTV-IL-0wX" eventType="touchUpInside" id="HT8-qs-q2r"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -63,12 +66,13 @@
             <connections>
                 <outlet property="myImageView" destination="mgA-3s-vfQ" id="Ohc-n8-1ec"/>
                 <outlet property="myLabel" destination="yrS-Qs-oWm" id="gdD-xC-Khe"/>
+                <outlet property="starCutton" destination="h2H-mo-4DP" id="mJA-3q-Iwa"/>
             </connections>
             <point key="canvasLocation" x="250.72463768115944" y="155.69196428571428"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="MarvelLogo" width="1200" height="482"/>
-        <image name="star" catalog="system" width="64" height="58"/>
+        <image name="emptyStar" width="40" height="40"/>
     </resources>
 </document>

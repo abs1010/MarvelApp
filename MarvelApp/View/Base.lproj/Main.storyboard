@@ -112,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="905" y="166"/>
         </scene>
-        <!--Item-->
+        <!--Favoritos-->
         <scene sceneID="nvw-5z-FoF">
             <objects>
-                <viewController id="cJc-SU-mca" customClass="ViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cJc-SU-mca" customClass="FavoritesViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bbn-bf-wLX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -142,7 +142,10 @@
                         <viewLayoutGuide key="safeArea" id="IZv-gU-PZa"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="star" catalog="system" selectedImage="star.fill" id="fIK-GL-gjo"/>
-                    <navigationItem key="navigationItem" id="GVM-P1-IhG"/>
+                    <navigationItem key="navigationItem" title="Favoritos" id="GVM-P1-IhG"/>
+                    <connections>
+                        <outlet property="favoriteCollectionView" destination="xRj-z3-06a" id="XCK-pL-N3O"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EUH-XH-BwL" sceneMemberID="firstResponder"/>
             </objects>
@@ -181,8 +184,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6El-IB-fkw"/>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="MgR-w0-rMo">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="star" catalog="system" id="Clf-un-gEs">
+                    <navigationItem key="navigationItem" id="MgR-w0-rMo">
+                        <barButtonItem key="rightBarButtonItem" title=" " id="Clf-un-gEs">
+                            <inset key="largeContentSizeImageInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                             <connections>
                                 <action selector="tapOnFavorite:" destination="ZFd-CJ-UVZ" id="cE8-j3-2LC"/>
                             </connections>

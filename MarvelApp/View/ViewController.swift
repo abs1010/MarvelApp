@@ -45,7 +45,6 @@ class ViewController: BaseViewController {
         
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == DetailsViewController.identifier {
@@ -53,7 +52,7 @@ class ViewController: BaseViewController {
             if let vc: DetailsViewController = segue.destination as? DetailsViewController {
                 
                 vc.selectedCharacter = self.controller.getCharacterWithIndexPathFromItem()
-                
+                vc.indexPath = self.controller.getSelectedIndex()
             }
             
         }
@@ -81,6 +80,8 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.cell, for: indexPath) as! CustomCollectionViewCell
         
         cell.characterProfile = self.controller.getCharacterWithIndexPath(indexPath)
+        
+        cell.delegate = self
         
         return cell
         
@@ -129,4 +130,17 @@ extension ViewController : CharactersControllerDelegate {
         
     }
     
+}
+
+//MARK: - EXTENSION OF CUSTONCLCELL TO GET CHANGES ON FAVORITE STATUS
+extension ViewController : CustomCollectionViewCellDelegate {
+    
+    func setCharacterAsFavorite() {
+        
+        DispatchQueue.main.async {
+            self.charactersCollectionView.reloadData()
+        }
+        
+    }
+
 }
