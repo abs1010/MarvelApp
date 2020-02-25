@@ -20,7 +20,7 @@ class ViewController: BaseViewController {
         // Do any additional setup after loading the view.
         
         //Initializes the controller and makes the first request
-        controller.setupController(offSet: 20)
+        controller.setupController(offSet: 0)
         
         self.controller.delegate = self
         
@@ -63,7 +63,7 @@ class ViewController: BaseViewController {
     @IBAction func getMoreData(_ sender: UIBarButtonItem) {
         
         //CREATE A TEMP METHOD TO CALL THE CLOSURE
-        
+        startActivityIndicator()
         self.controller.requestAnotherPage(currentCounter: 40)
         
     }

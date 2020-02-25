@@ -20,7 +20,7 @@ class CharactersController {
     
     let realm = try! Realm()
     
-    private var contador : Int = 20
+    private var contador : Int = 0
     private var totalItensAllowed : Int = 0
     private var selectedIndex: Int = 0
     
@@ -53,11 +53,11 @@ class CharactersController {
         return (self.charactersArray?[index.row])!
         //Treat force unwrap later
     }
-
+    
     func saveIndexSelected(index: Int) {
         
         self.selectedIndex = index
-
+        
     }
     
     func getCharacterWithIndexPathFromItem() -> CharactersElementRealm {
@@ -68,20 +68,22 @@ class CharactersController {
     
     func requestAnotherPage(currentCounter: Int){
         
-      //  if shouldFetchAgain(currentCounter) {
-            
-            //        if currentCounter >= 80 {
-            //            print("Cannot make more requests, You've gotten to the end of the list")
-            //
-            //        }
-            
-            print("Hora de Fazer nova request")
-            
-            self.provider = DataProvider(offset: contador)
-            
-            self.loadNewPageOfCharacters()
-            
-       // }
+        //  if shouldFetchAgain(currentCounter) {
+        
+        //        if currentCounter >= 80 {
+        //            print("Cannot make more requests, You've gotten to the end of the list")
+        //
+        //        }
+        
+        print("Hora de Fazer nova request")
+        
+        //guard let count = self.contador else { return }
+        
+        self.provider = DataProvider(offset: self.contador)
+        
+        self.loadNewPageOfCharacters()
+        
+        // }
         
     }
     
@@ -89,7 +91,7 @@ class CharactersController {
         
         guard let amount = charactersArray?.count else { return false }
         
-        if index == (amount - 4) {
+        if index == (amount - 2) {
             return true
         }
         else {
@@ -101,7 +103,7 @@ class CharactersController {
         
         guard let amount = charactersArray?.count else { return "" }
         
-        if index == (amount - 4) {
+        if index == (amount - 2) {
             return "true \(index)-\(charactersArray?.count)"
         }
         else {
@@ -124,22 +126,23 @@ class CharactersController {
                 
                 DispatchQueue.main.async {
                     self?.saveCharactersLocally(dataClassOk)
-                    self?.loadUpCharacters()
                     self?.delegate?.successOnFethingCharactersOfPageOffet()
-                    self?.contador = dataClassOk.offset + dataClassOk.limit
+                    self?.loadUpCharacters()
+
+                    self?.contador += 20
+                    
                 }
                 //Total of possible Items
                 self?.totalItensAllowed = dataClassOk.total
                 
             case .failure(let resultFail):
+                self?.delegate?.errorOnFethingCharacters(error: resultFail)
                 print(resultFail.localizedDescription)
             }
             
         })
         
     }
-    
-    //private func offsetCalculator(
     
     private func saveCharactersLocally(_ dataClass: DataClass) {
         
@@ -268,6 +271,41 @@ class CharactersController {
         
     }
     
+    //MARK:- CHECK IF OBJECT IS FAVORITE YET
+    
+    func isFavorite(id: Int) -> Bool {
+        
+        let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
+        if check.count != 0 {
+            return true
+        }
+        
+        return false
+        
+    }
+    
+    func removeFavoriteCharacter(id: Int){
+        
+        let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
+        
+        do{
+            try realm.write {
+                realm.delete(check)
+            }
+        }
+        catch{
+            print("Erro ao remover registro : \(error)")
+        }
+        
+    }
+    
+    func saveFavoriteCharacter(character id: CharactersElementRealm?){
+        
+
+        
+    }
+    
+    
     static func removellAllDataFromRealm(){
         
         let realm = try! Realm()
@@ -276,7 +314,7 @@ class CharactersController {
         try! realm.write {
             realm.delete(allObjects)
         }
-
+        
         let allObjects1 = realm.objects(containerItemRealm.self)
         try! realm.write {
             realm.delete(allObjects1)
@@ -286,7 +324,7 @@ class CharactersController {
         try! realm.write {
             realm.delete(allObjects2)
         }
-
+        
         print("===all data from realm has been removed===")
         
     }

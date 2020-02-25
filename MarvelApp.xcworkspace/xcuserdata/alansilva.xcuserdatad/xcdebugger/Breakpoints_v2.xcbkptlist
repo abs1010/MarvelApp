@@ -20,5 +20,84 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AB655F73-61C7-4B07-ADBC-309099C4213A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MarvelApp/Provider/DataProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "init(offset:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "000AC8B1-A7B4-4ABE-BB06-A0D180703003"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MarvelApp/Controller/CharactersController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "loadNewPageOfCharacters()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "000AC8B1-A7B4-4ABE-BB06-A0D180703003 - 9419f0c3aa465c27"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;MarvelApp.DataClass, MarvelApp.ResponseError&gt;) -&gt; () in MarvelApp.CharactersController.(loadNewPageOfCharacters in _4188E6A8DEAC1EE673C0113D89B7C91D)() -&gt; ()"
+                  moduleName = "MarvelApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alansilva/Documents/iOS/2-Others/3-Testes/MarvelApp/MarvelApp/Controller/CharactersController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "210">
+               </Location>
+               <Location
+                  uuid = "000AC8B1-A7B4-4ABE-BB06-A0D180703003 - 9419f0c3aa465c27"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;MarvelApp.DataClass, MarvelApp.ResponseError&gt;) -&gt; () in MarvelApp.CharactersController.(loadNewPageOfCharacters in _4188E6A8DEAC1EE673C0113D89B7C91D)() -&gt; ()"
+                  moduleName = "MarvelApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alansilva/Documents/iOS/2-Others/3-Testes/MarvelApp/MarvelApp/Controller/CharactersController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "267">
+               </Location>
+               <Location
+                  uuid = "000AC8B1-A7B4-4ABE-BB06-A0D180703003 - 9419f0c3aa465c27"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;MarvelApp.DataClass, MarvelApp.ResponseError&gt;) -&gt; () in MarvelApp.CharactersController.(loadNewPageOfCharacters in _4188E6A8DEAC1EE673C0113D89B7C91D)() -&gt; ()"
+                  moduleName = "MarvelApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alansilva/Documents/iOS/2-Others/3-Testes/MarvelApp/MarvelApp/Controller/CharactersController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "1549">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
