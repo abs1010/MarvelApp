@@ -76,9 +76,6 @@ class DetailsViewController: BaseViewController {
             self.detailImageView.sd_setImage(with: URL(string: ("\(imagem)")), placeholderImage: UIImage(named: "MarvelLogo"))
         }
         
-        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
-        
-        navBar.prefersLargeTitles = true
     }
     
     func setStarStatus(){

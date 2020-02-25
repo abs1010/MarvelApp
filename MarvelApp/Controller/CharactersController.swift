@@ -306,10 +306,8 @@ class CharactersController {
     
     func loadUpFavorites(){
         
-        self.favoriteCharactersArray = self.charactersArray
-        
-        self.favoriteCharactersArray = favoriteCharactersArray?.filter("favorite CONTAINS[cd] %@true").sorted(byKeyPath: "name", ascending: true)
-        //self.favoriteCharactersArray = favoriteCharactersArray?.filter("favorite CONTAINS[cd] %@", true).sorted(byKeyPath: "name", ascending: true)
+        self.favoriteCharactersArray = realm.objects(CharactersElementRealm.self)
+        self.favoriteCharactersArray = favoriteCharactersArray?.filter("favorite == true").sorted(byKeyPath: "name", ascending: true)
         
     }
     
@@ -317,6 +315,12 @@ class CharactersController {
         
         return self.favoriteCharactersArray?.count ?? 0
         
+    }
+    
+    func getCharacterWithIndexPathOfFavorites(_ index: IndexPath) -> CharactersElementRealm {
+        
+        return (self.favoriteCharactersArray?[index.row])!
+
     }
     
 }

@@ -42,4 +42,33 @@ class BaseViewController: UIViewController {
         
     }
     
+    //MARK: - SETS LAYOUT FOR COLLECTION VIEW
+    
+    func setLayout(for collection: UICollectionView){
+         
+         let layout = collection.collectionViewLayout as! UICollectionViewFlowLayout
+         layout.sectionInset = UIEdgeInsetsMake(5, 15, 5, 15)
+         layout.minimumInteritemSpacing = 15
+         layout.minimumLineSpacing = 15
+         layout.itemSize = CGSize(width: collection.frame.size.width - 20/2, height: collection.frame.size.height / 3)
+         
+         guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+         
+         navBar.prefersLargeTitles = true
+         
+     }
+    
+    //Pull to Refresh
+//
+//    func addRefreshingControlA(for collection: UICollectionView){
+//
+//        var refreshControl: UIRefreshControl?
+//
+//        refreshControl = UIRefreshControl()
+//        refreshControl?.tintColor = .red
+//        refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+//        collection.addSubview(refreshControl!)
+//
+//    }
+    
 }

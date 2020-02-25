@@ -14,8 +14,12 @@ class FavoritesViewController: BaseViewController {
 
     @IBOutlet weak var favoriteCollectionView: UICollectionView!
     
+    var refreshControl: UIRefreshControl?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.addRefreshingControl()
         
         self.controller.loadUpFavorites()
         
@@ -26,8 +30,48 @@ class FavoritesViewController: BaseViewController {
         //Registering Cell
         self.favoriteCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
         
+        setLayout(for: favoriteCollectionView)
+        
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.controller.loadUpFavorites()
+        
+    }
+    
+    func addRefreshingControl(){
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = .red
+        self.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        self.favoriteCollectionView.addSubview(refreshControl!)
+        
+        
+    }
+    
+    @objc func refreshList() {
+        
+        self.refreshControl?.endRefreshing()
+        self.controller.loadUpFavorites()
+        self.favoriteCollectionView.reloadData()
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == DetailsViewController.identifier {
+            
+            if let vc: DetailsViewController = segue.destination as? DetailsViewController {
+                
+                vc.selectedCharacter = self.controller.getCharacterWithIndexPathFromItem()
+                vc.indexPath = self.controller.getSelectedIndex()
+            }
+            
+        }
+        
+    }
+    
 }
 
 extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDataSource {
@@ -42,13 +86,24 @@ extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDa
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.cell, for: indexPath) as! CustomCollectionViewCell
         
-        //cell.characterProfile = self.controller.getCharacterWithIndexPath(indexPath)
-        
-        cell.myLabel.text = "\(indexPath)"
-        
-        //cell.delegate = self
+        cell.characterProfile = self.controller.getCharacterWithIndexPathOfFavorites(indexPath)
         
         return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let padding: CGFloat =  50
+        let collectionViewSize = collectionView.frame.size.width - padding
+        
+        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        self.controller.saveIndexSelected(index: indexPath.row)
+        performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
         
     }
     

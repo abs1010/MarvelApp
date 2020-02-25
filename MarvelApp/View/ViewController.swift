@@ -15,9 +15,13 @@ class ViewController: BaseViewController {
     
     @IBOutlet weak var charactersCollectionView: UICollectionView!
     
+    var refreshControl: UIRefreshControl?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        self.addRefreshingControl()
         
         //Initializes the controller and makes the first request
         controller.setupController(offSet: 0)
@@ -31,18 +35,8 @@ class ViewController: BaseViewController {
         //Registering Cell
         self.charactersCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
         
-        setLayout()
+        setLayout(for: charactersCollectionView)
         startActivityIndicator()
-    }
-    
-    func setLayout(){
-        
-        let layout = self.charactersCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.sectionInset = UIEdgeInsetsMake(5, 15, 5, 15)
-        layout.minimumInteritemSpacing = 15
-        layout.minimumLineSpacing = 15
-        layout.itemSize = CGSize(width: self.charactersCollectionView.frame.size.width - 20/2, height: self.charactersCollectionView.frame.size.height / 3)
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,6 +58,23 @@ class ViewController: BaseViewController {
         //CREATE A TEMP METHOD TO CALL THE CLOSURE
         startActivityIndicator()
         self.controller.requestAnotherPage(currentCounter: 40)
+        
+    }
+    
+    func addRefreshingControl(){
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = .red
+        self.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        self.charactersCollectionView.addSubview(refreshControl!)
+        
+    }
+    
+    @objc func refreshList() {
+        
+        self.refreshControl?.endRefreshing()
+        //add new request
+        self.charactersCollectionView.reloadData()
         
     }
     
@@ -138,7 +149,7 @@ extension ViewController : CustomCollectionViewCellDelegate {
     func setCharacterAsFavorite() {
         
         DispatchQueue.main.async {
-            self.charactersCollectionView.reloadData()
+            //self.charactersCollectionView.reloadData()
         }
         
     }
