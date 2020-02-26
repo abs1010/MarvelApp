@@ -17,6 +17,8 @@ class HomeViewController: BaseViewController {
     
     var refreshControl: UIRefreshControl?
     
+    var counter = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,7 +26,7 @@ class HomeViewController: BaseViewController {
         self.addRefreshingControl()
         
         //Initializes the controller and makes the first request
-        controller.setupController(offSet: 0)
+        controller.setupController()
         
         self.controller.delegate = self
         
@@ -61,9 +63,8 @@ class HomeViewController: BaseViewController {
     
     @IBAction func getMoreData(_ sender: UIBarButtonItem) {
         
-        //CREATE A TEMP METHOD TO CALL THE CLOSURE
         startActivityIndicator()
-        self.controller.requestAnotherPage(currentCounter: 40)
+        self.controller.requestAnotherPage()
         
     }
     
@@ -115,9 +116,20 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        print(controller.indexIsLast(indexPath.item))
+        counter += 1
         
-        //controller.requestAnotherPage(currentCounter: indexPath.item)
+        if counter > 20 {
+            
+            let totalOfItem = self.controller.getNumberOfRows()
+            
+            if indexPath.row == (totalOfItem - 4 ) {
+                counter = 0
+                print("Hora de refrescar!!!!!!!!!!!!!")
+                self.controller.requestAnotherPage()
+                startActivityIndicator()
+            }
+            
+        }
         
     }
     
@@ -151,6 +163,12 @@ extension HomeViewController : CharactersControllerDelegate {
         
     }
     
+    func limitOfRequestsHasBeenReached(){
+        
+        showAlert(title: "Aviso", msg: "Você chegou ao fim da lista")
+        
+    }
+    
 }
 
 //MARK: - EXTENSION OF CUSTONCLCELL TO GET CHANGES ON FAVORITE STATUS
@@ -160,8 +178,9 @@ extension HomeViewController : CustomCollectionViewCellDelegate {
         
         DispatchQueue.main.async {
             //self.charactersCollectionView.reloadData()
+            //self.charactersCollectionView.scrollsToTop = false
         }
         
     }
-
+    
 }

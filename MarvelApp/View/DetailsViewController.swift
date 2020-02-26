@@ -172,6 +172,10 @@ extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
         
         cell.nameLabel.text = name
         
+        //let image : String = (indexPath.section == 0 ? self.selectedCharacter?.comicsItems[indexPath.row].resourceURI : self.selectedCharacter?.seriesItems[indexPath.row].resourceURI)!
+        
+        //cell.imageView?.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "MarvelLogo"))
+        
         return cell
         
     }

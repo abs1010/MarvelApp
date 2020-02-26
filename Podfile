@@ -9,7 +9,6 @@ target 'MarvelApp' do
   
   pod 'SDWebImage', '~> 5.0'
   pod 'RealmSwift'
-  pod 'SwiftLint'
 
   target 'MarvelAppTests' do
     inherit! :search_paths

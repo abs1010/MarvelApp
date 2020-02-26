@@ -51,9 +51,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
         if let item = self.characterProfile {
             
-            let icon = item.favorite ? "favoritado" : "nao favorite"
+            let icon = item.favorite ? "Desfavoritado" : "Favoritado"
             print("====Favorite Status Changed on Realm ====")
-            print(icon)
+            print("\(item.name)#\(icon)")
             
             do{
                 try realm.write {

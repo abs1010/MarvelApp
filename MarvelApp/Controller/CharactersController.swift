@@ -12,6 +12,7 @@ import RealmSwift
 protocol CharactersControllerDelegate : class {
     func successOnFethingCharactersOfPageOffet()
     func errorOnFethingCharacters(error: Error)
+    func limitOfRequestsHasBeenReached()
 }
 
 class CharactersController {
@@ -24,14 +25,15 @@ class CharactersController {
     private var contador : Int = 0
     private var selectedIndex: Int = 0
     private var selectedFavoriteIndex: Int = 0
+    private var maximumRequestAllowed = 0
     
     private var provider: DataProvider?
     
     weak var delegate : CharactersControllerDelegate?
     
-    func setupController(offSet: Int){
+    func setupController(){
         
-        self.provider = DataProvider(offset: offSet)
+        self.provider = DataProvider(offset: contador)
         
         self.loadNewPageOfCharacters()
         
@@ -75,40 +77,45 @@ class CharactersController {
     
     //============
     
-    func requestAnotherPage(currentCounter: Int){
+    func requestAnotherPage(){
         
-        print("Hora de Fazer nova request")
+        let offset = contador
+        let nRequested = offset / 20
+        let maxPermitted = self.maximumRequestAllowed / 20
         
-        self.provider = DataProvider(offset: self.contador)
-        
-        self.loadNewPageOfCharacters()
+        if maxPermitted + 1 <= nRequested {
+            
+            self.delegate?.limitOfRequestsHasBeenReached()
+            
+        }
+        else {
+            self.provider = DataProvider(offset: contador)
+            self.loadNewPageOfCharacters()
+        }
         
     }
     
-    private func shouldFetchAgain(_ index: Int) -> Bool {
-        
-        guard let amount = charactersArray?.count else { return false }
-        
-        if index == (amount - 2) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    func indexIsLast(_ index: Int) -> String {
-        
-        guard let amount = charactersArray?.count else { return "" }
-        
-        if index == (amount - 2) {
-            return "true \(index)-\(charactersArray?.count)"
-        }
-        else {
-            return "false \(index)-\(charactersArray?.count)"
-        }
-        
-    }
+//    var indexA: IndexPath?
+//    
+//    func shouldFetchAgain() {
+//        
+//        guard let amount = charactersArray?.count else { return }
+//    
+//        if indexA?.row == (amount - 4) {
+//
+//            print("Chegou a hora")
+//            self.provider = DataProvider(offset: self.contador)
+//            self.loadNewPageOfCharacters()
+//            
+//        }
+//        
+//    }
+//    
+//    func saveCurrentWillDisplayIndex(indexPath: IndexPath) {
+//        
+//        self.indexA = indexPath
+//       
+//    }
     
     //============
     
@@ -124,14 +131,12 @@ class CharactersController {
                 print("===Success on fetching data for offset: \(dataClassOk.offset)===")
                 
                 DispatchQueue.main.async {
-                    self?.saveCharactersLocally(dataClassOk)
-                    self?.delegate?.successOnFethingCharactersOfPageOffet()
-                    self?.loadUpCharacters()
                     self?.contador += 20
-                    
+                    self?.saveCharactersLocally(dataClassOk)
+                    self?.loadUpCharacters()
+                    self?.delegate?.successOnFethingCharactersOfPageOffet()
+                    self?.maximumRequestAllowed = dataClassOk.total
                 }
-                //Total of possible Items
-                //self?.totalItensAllowed = dataClassOk.total
                 
             case .failure(let resultFail):
                 DispatchQueue.main.async {
@@ -235,7 +240,8 @@ class CharactersController {
                 
                 container.resourceURI = object?.resourceURI ?? ""
                 container.name = object?.name ?? ""
-                container.type = (object?.type).map { $0.rawValue } ?? ""
+                //container.type = (object?.type).map { $0.rawValue } ?? ""
+                container.type = object?.type ?? ""
                 
                 charactersElementRealm.storieItems.append(container)
                 
