@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Closing Application")
         
         CharactersController.removellAllDataFromRealm()
+        Utils.deleteObject(key: "lastOffset")
         
     }
 

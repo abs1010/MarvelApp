@@ -31,7 +31,17 @@ class CharactersController {
     
     weak var delegate : CharactersControllerDelegate?
     
+    func checkLastOffSet(){
+     
+        if let lastOffset : Int = Utils.getObject(key: "lastOffset") as? Int {
+            self.contador = lastOffset
+        }
+        
+    }
+    
     func setupController(){
+        
+        checkLastOffSet()
         
         self.provider = DataProvider(offset: contador)
         
@@ -91,6 +101,9 @@ class CharactersController {
         else {
             self.provider = DataProvider(offset: contador)
             self.loadNewPageOfCharacters()
+            
+            Utils.saveObject(key: "lastOffset", value: contador + 20)
+            
         }
         
     }
