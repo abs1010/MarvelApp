@@ -21,7 +21,8 @@ class FavoritesViewController: BaseViewController {
         
         self.addRefreshingControl()
         
-        self.controller.loadUpFavorites()
+        //LOADS AND FILTER THE FAVORITES
+        //self.controller.loadUpFavorites()
         
         //CollectionView Methods
         self.favoriteCollectionView.delegate = self
@@ -36,7 +37,10 @@ class FavoritesViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         
+        //self.addRefreshingControl()
+        
         self.controller.loadUpFavorites()
+        self.favoriteCollectionView.reloadData()
         
     }
     
@@ -47,9 +51,8 @@ class FavoritesViewController: BaseViewController {
         self.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
         self.favoriteCollectionView.addSubview(refreshControl!)
         
-        
     }
-    
+        
     @objc func refreshList() {
         
         self.refreshControl?.endRefreshing()
@@ -58,14 +61,15 @@ class FavoritesViewController: BaseViewController {
         
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == DetailsViewController.identifier {
             
             if let vc: DetailsViewController = segue.destination as? DetailsViewController {
                 
-                vc.selectedCharacter = self.controller.getCharacterWithIndexPathFromItem()
-                vc.indexPath = self.controller.getSelectedIndex()
+                vc.selectedCharacter = self.controller.getCharacterWithIndexPathForFavorite()
+                vc.indexPath = self.controller.getSelectedIndexForFavorite()
             }
             
         }
@@ -88,23 +92,39 @@ extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDa
         
         cell.characterProfile = self.controller.getCharacterWithIndexPathOfFavorites(indexPath)
         
+        cell.delegate = self
+        
         return cell
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let padding: CGFloat =  50
-        let collectionViewSize = collectionView.frame.size.width - padding
-        
-        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        let padding: CGFloat =  50
+//        let collectionViewSize = collectionView.frame.size.width - padding
+//
+//        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        self.controller.saveIndexSelected(index: indexPath.row)
+        self.controller.saveIndexForSelectedFavorite(index: indexPath.row)
         performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
         
     }
     
+}
+
+//MARK: - EXTENSION OF CUSTONCLCELL TO GET CHANGES ON FAVORITE STATUS
+extension FavoritesViewController : CustomCollectionViewCellDelegate {
+    
+    func setCharacterAsFavorite() {
+        
+        DispatchQueue.main.async {
+            self.favoriteCollectionView.reloadData()
+            print("Passei ai rapaz")
+        }
+        
+    }
+
 }

@@ -11,7 +11,7 @@
         <!--Marvel Characters-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="HomeViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -122,7 +122,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xRj-z3-06a">
                                 <rect key="frame" x="0.0" y="88" width="375" height="641"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3sm-mh-eJy">
                                     <size key="itemSize" width="180" height="249"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -134,10 +134,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="xRj-z3-06a" firstAttribute="trailing" secondItem="IZv-gU-PZa" secondAttribute="trailing" id="0EM-Ll-sxW"/>
-                            <constraint firstItem="xRj-z3-06a" firstAttribute="leading" secondItem="IZv-gU-PZa" secondAttribute="leading" id="9m3-Op-tjB"/>
-                            <constraint firstItem="xRj-z3-06a" firstAttribute="bottom" secondItem="IZv-gU-PZa" secondAttribute="bottom" id="cIa-hh-x8r"/>
-                            <constraint firstItem="xRj-z3-06a" firstAttribute="top" secondItem="IZv-gU-PZa" secondAttribute="top" id="pRk-U2-fxO"/>
+                            <constraint firstItem="xRj-z3-06a" firstAttribute="trailing" secondItem="IZv-gU-PZa" secondAttribute="trailing" id="58D-a3-tim"/>
+                            <constraint firstItem="xRj-z3-06a" firstAttribute="bottom" secondItem="IZv-gU-PZa" secondAttribute="bottom" id="DGO-Hh-vsJ"/>
+                            <constraint firstItem="xRj-z3-06a" firstAttribute="leading" secondItem="IZv-gU-PZa" secondAttribute="leading" id="g26-d5-jES"/>
+                            <constraint firstItem="xRj-z3-06a" firstAttribute="top" secondItem="IZv-gU-PZa" secondAttribute="top" id="sXf-Fc-1tK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IZv-gU-PZa"/>
                     </view>
@@ -145,11 +145,12 @@
                     <navigationItem key="navigationItem" title="Favoritos" id="GVM-P1-IhG"/>
                     <connections>
                         <outlet property="favoriteCollectionView" destination="xRj-z3-06a" id="XCK-pL-N3O"/>
+                        <segue destination="ZFd-CJ-UVZ" kind="show" identifier="goToDetails" id="8sC-YT-guK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EUH-XH-BwL" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="428" y="892"/>
+            <point key="canvasLocation" x="428" y="891.87192118226608"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="sJb-yn-RsG">
@@ -211,4 +212,7 @@
         <image name="star" catalog="system" width="64" height="58"/>
         <image name="star.fill" catalog="system" width="64" height="58"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Esi-dK-gyb"/>
+    </inferredMetricsTieBreakers>
 </document>

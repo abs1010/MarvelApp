@@ -23,6 +23,7 @@ class CharactersController {
     
     private var contador : Int = 0
     private var selectedIndex: Int = 0
+    private var selectedFavoriteIndex: Int = 0
     
     private var provider: DataProvider?
     
@@ -321,6 +322,22 @@ class CharactersController {
         
         return (self.favoriteCharactersArray?[index.row])!
 
+    }
+    
+    func saveIndexForSelectedFavorite(index: Int) {
+        
+        self.selectedFavoriteIndex = index
+        
+    }
+    
+    func getSelectedIndexForFavorite() -> Int {
+        return self.selectedFavoriteIndex
+    }
+    
+    func getCharacterWithIndexPathForFavorite() -> CharactersElementRealm {
+        
+        return (self.favoriteCharactersArray?[self.selectedFavoriteIndex])!
+        
     }
     
 }

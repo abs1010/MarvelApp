@@ -42,9 +42,9 @@ class DetailsViewController: BaseViewController {
         
         if let item = self.selectedCharacter {
             
-            let icon = item.favorite ? "favoritado" : "nao favorite"
+            let icon = item.favorite ? "Desvoritado" : "Favoritado"
             print("====Favorite Status Changed on Realm ====")
-            print(icon)
+            print("\(item.name)#\(icon)")
             
             do{
                 try realm.write {

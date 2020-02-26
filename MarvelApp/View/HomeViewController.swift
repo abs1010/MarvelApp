@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: BaseViewController {
+class HomeViewController: BaseViewController {
     
     let controller = CharactersController()
     
@@ -80,7 +80,7 @@ class ViewController: BaseViewController {
     
 }
 
-extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.controller.getNumberOfRows()
@@ -125,7 +125,7 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource 
 }
 
 //MARK: - EXTENSION OF VIEWCONTROLLER (CONTROLLERDELEGATE)
-extension ViewController : CharactersControllerDelegate {
+extension HomeViewController : CharactersControllerDelegate {
     
     func successOnFethingCharactersOfPageOffet() {
         
@@ -144,7 +144,7 @@ extension ViewController : CharactersControllerDelegate {
 }
 
 //MARK: - EXTENSION OF CUSTONCLCELL TO GET CHANGES ON FAVORITE STATUS
-extension ViewController : CustomCollectionViewCellDelegate {
+extension HomeViewController : CustomCollectionViewCellDelegate {
     
     func setCharacterAsFavorite() {
         
