@@ -51,8 +51,10 @@ class CharactersController {
     
     func getCharacterWithIndexPath(_ index: IndexPath) -> CharactersElementRealm {
         
-        return (self.charactersArray?[index.row])!
-        //Treat force unwrap later
+        guard let chaElement = self.charactersArray else { fatalError("No data available") }
+        
+        return chaElement[index.row]
+        
     }
     
     func saveIndexSelected(index: Int) {
@@ -70,6 +72,8 @@ class CharactersController {
         return (self.charactersArray?[self.selectedIndex])!
         
     }
+    
+    //============
     
     func requestAnotherPage(currentCounter: Int){
         
@@ -106,8 +110,9 @@ class CharactersController {
         
     }
     
+    //============
     
-    //
+    //MARK: - METHOD THAT REQUEST A NEW PAGE
     
     private func loadNewPageOfCharacters(){
         
@@ -122,7 +127,6 @@ class CharactersController {
                     self?.saveCharactersLocally(dataClassOk)
                     self?.delegate?.successOnFethingCharactersOfPageOffet()
                     self?.loadUpCharacters()
-                    
                     self?.contador += 20
                     
                 }
@@ -130,8 +134,23 @@ class CharactersController {
                 //self?.totalItensAllowed = dataClassOk.total
                 
             case .failure(let resultFail):
-                self?.delegate?.errorOnFethingCharacters(error: resultFail)
-                print(resultFail.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.loadUpCharacters()
+                    
+                    if self?.getNumberOfRows() == 0 {
+                        
+                        print("===NO LOCAL DATA FOUND===")
+                        self?.delegate?.errorOnFethingCharacters(error: resultFail)
+                        
+                    }
+                    else{
+                        
+                        self?.delegate?.successOnFethingCharactersOfPageOffet()
+                        
+                    }
+                    
+                }
+                
             }
             
         })
@@ -261,22 +280,22 @@ class CharactersController {
                 
             }
             
-        }//for
+        }//ends for
         
     }
     
-        //MARK:- CHECK IF OBJECT IS FAVORITE YET
+    //MARK:- CHECK IF OBJECT IS FAVORITE YET
     
-        func isFavorite(id: Int) -> Bool {
-    
-            let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
-            if check.count != 0 {
-                return true
-            }
-    
-            return false
-    
+    func isFavorite(id: Int) -> Bool {
+        
+        let check = realm.objects(CharactersElementRealm.self).filter("id = \(id)")
+        if check.count != 0 {
+            return true
         }
+        
+        return false
+        
+    }
     
     //MARK:- REMOVE ALL DATA FROM REALM MAIN
     
@@ -320,8 +339,10 @@ class CharactersController {
     
     func getCharacterWithIndexPathOfFavorites(_ index: IndexPath) -> CharactersElementRealm {
         
-        return (self.favoriteCharactersArray?[index.row])!
-
+        guard let chaElement = self.favoriteCharactersArray else { fatalError("No data available") }
+        
+        return chaElement[index.row]
+        
     }
     
     func saveIndexForSelectedFavorite(index: Int) {

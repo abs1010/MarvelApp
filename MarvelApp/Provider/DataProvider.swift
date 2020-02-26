@@ -41,7 +41,7 @@ struct DataProvider {
         URLSession.shared.dataTask(with: self.resourceURL) { data, _, _ in
             
             guard let jsonData = data else {
-                print("===Error on fetching data (no data could be retrieved===")
+                print("===Error on fetching data (no data could be retrieved)===")
                 completion(.failure(.noDataAvailable))
                 return
             }

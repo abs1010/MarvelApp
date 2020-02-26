@@ -39,6 +39,12 @@ class HomeViewController: BaseViewController {
         startActivityIndicator()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.charactersCollectionView.reloadData()
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == DetailsViewController.identifier {
@@ -138,6 +144,10 @@ extension HomeViewController : CharactersControllerDelegate {
     }
     
     func errorOnFethingCharacters(error: Error) {
+        
+        showAlert(title: "Aviso", msg: "Parece que você está sem conexão. Sem dados locais.")
+        
+        stopActivityIndicator()
         
     }
     

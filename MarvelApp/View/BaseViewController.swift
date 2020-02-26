@@ -31,10 +31,10 @@ class BaseViewController: UIViewController {
         activityIndicator.stopAnimating()
     }
 
-    func showAlert(title: String, msg: String, style: UIAlertController.Style) {
+    func showAlert(title: String, msg: String) {
         
-        let alert = UIAlertController(title: title, message: msg, preferredStyle: style)
-        let btnOk = UIAlertAction(title: "Ok", style: .destructive, handler: nil)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        let btnOk = UIAlertAction(title: "Ok", style: .default, handler: nil)
         
         alert.addAction(btnOk)
         
