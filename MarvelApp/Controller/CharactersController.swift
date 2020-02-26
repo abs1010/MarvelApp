@@ -32,7 +32,7 @@ class CharactersController {
     weak var delegate : CharactersControllerDelegate?
     
     func checkLastOffSet(){
-     
+        
         if let lastOffset : Int = Utils.getObject(key: "lastOffset") as? Int {
             self.contador = lastOffset
         }
@@ -85,8 +85,6 @@ class CharactersController {
         
     }
     
-    //============
-    
     func requestAnotherPage(){
         
         let offset = contador
@@ -96,7 +94,7 @@ class CharactersController {
         if maxPermitted + 1 <= nRequested {
             
             self.delegate?.limitOfRequestsHasBeenReached()
-            
+
         }
         else {
             self.provider = DataProvider(offset: contador)
@@ -107,30 +105,6 @@ class CharactersController {
         }
         
     }
-    
-//    var indexA: IndexPath?
-//    
-//    func shouldFetchAgain() {
-//        
-//        guard let amount = charactersArray?.count else { return }
-//    
-//        if indexA?.row == (amount - 4) {
-//
-//            print("Chegou a hora")
-//            self.provider = DataProvider(offset: self.contador)
-//            self.loadNewPageOfCharacters()
-//            
-//        }
-//        
-//    }
-//    
-//    func saveCurrentWillDisplayIndex(indexPath: IndexPath) {
-//        
-//        self.indexA = indexPath
-//       
-//    }
-    
-    //============
     
     //MARK: - METHOD THAT REQUEST A NEW PAGE
     

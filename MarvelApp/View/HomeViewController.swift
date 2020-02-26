@@ -116,17 +116,20 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
+        //print("\(counter)#Index: \(indexPath.row) # \(self.controller.getNumberOfRows())")
+        
         counter += 1
         
-        if counter > 20 {
+        let totalOfItems = self.controller.getNumberOfRows()
+        
+        if counter > totalOfItems {
             
-            let totalOfItem = self.controller.getNumberOfRows()
-            
-            if indexPath.row == (totalOfItem - 4 ) {
-                counter = 0
-                print("Hora de refrescar!!!!!!!!!!!!!")
+            if (indexPath.row + 1) == (totalOfItems - 4 ) {
+
                 self.controller.requestAnotherPage()
+                
                 startActivityIndicator()
+                
             }
             
         }
@@ -166,6 +169,7 @@ extension HomeViewController : CharactersControllerDelegate {
     func limitOfRequestsHasBeenReached(){
         
         showAlert(title: "Aviso", msg: "Você chegou ao fim da lista")
+        stopActivityIndicator()
         
     }
     
