@@ -70,14 +70,6 @@ struct StoriesItem: Codable {
     let type: String? //let type: ItemType?
 }
 
-/*enum ItemType: String, Codable {
-    case backcovers = "backcovers"
-    case cover = "cover"
-    case empty = ""
-    case interiorStory = "interiorStory"
-    case pinup = "pinup"
-}*/
-
 // MARK: - Thumbnail
 struct Thumbnail: Codable {
     let path: String?
