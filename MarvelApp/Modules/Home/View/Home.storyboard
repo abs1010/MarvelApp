@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UxM-Gj-BM9">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Marvel Characters-->
+        <scene sceneID="qUY-cN-TMG">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="let-xO-K1P" customClass="HomeViewController" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L0B-vM-wpb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nJj-te-Yhg">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CeD-fU-rKB">
+                                    <size key="itemSize" width="180" height="249"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="4N2-x6-s8f"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="nJj-te-Yhg" firstAttribute="top" secondItem="4N2-x6-s8f" secondAttribute="top" id="2A8-mN-gxq"/>
+                            <constraint firstItem="nJj-te-Yhg" firstAttribute="bottom" secondItem="4N2-x6-s8f" secondAttribute="bottom" id="3G4-TI-X0k"/>
+                            <constraint firstItem="nJj-te-Yhg" firstAttribute="leading" secondItem="4N2-x6-s8f" secondAttribute="leading" id="3w8-Lk-shX"/>
+                            <constraint firstItem="nJj-te-Yhg" firstAttribute="trailing" secondItem="4N2-x6-s8f" secondAttribute="trailing" id="eJ0-fe-Thy"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house.fill" id="Eap-eF-brR"/>
+                    <navigationItem key="navigationItem" title="Marvel Characters" largeTitleDisplayMode="always" id="lq6-XH-Fyt"/>
+                    <connections>
+                        <outlet property="charactersCollectionView" destination="nJj-te-Yhg" id="ufb-Lr-7cj"/>
+                        <segue destination="P36-E4-Cdv" kind="show" identifier="goToDetails" id="6Bg-1g-QcK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zLP-hO-l7H" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="45" y="148"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="fo4-W0-SL6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UxM-Gj-BM9" userLabel="Home" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="ggf-F4-eCI"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XMs-Jp-Sqf">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="let-xO-K1P" kind="relationship" relationship="rootViewController" id="A6E-ml-0wk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NCI-ly-sBq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-912" y="148"/>
+        </scene>
+        <!--Details-->
+        <scene sceneID="IBK-ZZ-3kf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Details" id="P36-E4-Cdv" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="RBD-f7-JMZ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kZn-eJ-oFK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="887" y="10"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="house" catalog="system" width="128" height="106"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

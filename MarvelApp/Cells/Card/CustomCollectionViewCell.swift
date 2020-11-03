@@ -16,6 +16,12 @@ protocol CustomCollectionViewCellDelegate : class {
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var myImageView: UIImageView!
+    @IBOutlet weak var myLabel: UILabel!
+    @IBOutlet weak var favoriteView: UIView!
+    @IBOutlet weak var starCutton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     let realm = try! Realm()
     
     static let cell = "CustomCollectionViewCell"
@@ -25,18 +31,21 @@ class CustomCollectionViewCell: UICollectionViewCell {
     var characterProfile : CharactersElementRealm! {
         
         didSet {
+            
+            self.activityIndicator.startAnimating()
+            
             self.myLabel.text = characterProfile.name
-            self.myImageView.sd_setImage(with: URL(string: ("\(characterProfile.thumbnail)")), placeholderImage: UIImage(named: "MarvelLogo"))
-            let status = characterProfile.favorite ? "filledStar" : "emptyStar"
-            self.starCutton.setImage(UIImage(named: "\(status)"), for: .normal)
+            self.myImageView.sd_setImage(with: URL(string: ("\(characterProfile.thumbnail)")), placeholderImage: UIImage(named: "MarvelLogo"), options: .continueInBackground) { (image, error, cache, url) in
+                
+                self.activityIndicator.stopAnimating()
+                
+            }
+            //self.myImageView.sd_setImage(with: URL(string: ("\(characterProfile.thumbnail)")), placeholderImage: UIImage(named: "MarvelLogo"))
+            let systemName = characterProfile.favorite ? "star.fill" : "star"
+            self.starCutton.setImage(UIImage(systemName: systemName), for: .normal)
         }
         
     }
-    
-    @IBOutlet weak var myImageView: UIImageView!
-    @IBOutlet weak var myLabel: UILabel!
-    @IBOutlet weak var starCutton: UIButton!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,9 +54,14 @@ class CustomCollectionViewCell: UICollectionViewCell {
         self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.borderWidth = 0.5
         
+        favoriteView.layer.borderColor = UIColor.black.cgColor
+        favoriteView.layer.borderWidth = 0.5
+        
     }
     
     @IBAction func btnFavorite(_ sender: UIButton) {
+        
+        sender.pulse()
         
         if let item = self.characterProfile {
             
@@ -71,17 +85,17 @@ class CustomCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func setStarStatus(){
+    private func setStarStatus(){
         
         if let item = self.characterProfile {
             if item.favorite {
                 
-                self.starCutton.setImage(UIImage(named: "filledStar"), for: .normal)
+                self.starCutton.setImage(UIImage(systemName: "star.fill"), for: .normal)
                 
             }
             else{
                 
-                self.starCutton.setImage(UIImage(named: "emptyStar"), for: .normal)
+                self.starCutton.setImage(UIImage(systemName: "star"), for: .normal)
                 
             }
             

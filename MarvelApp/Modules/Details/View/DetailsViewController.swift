@@ -16,13 +16,16 @@ class DetailsViewController: BaseViewController {
     
     var selectedCharacter : CharactersElementRealm?
     var indexPath : Int?
-    let realm = try! Realm()
+    private let realm = try! Realm()
     var controller : CharactersController?
     
-    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var detailImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
-    @IBOutlet weak var starButton: UIBarButtonItem!
+    @IBOutlet weak var favoriteView: UIView!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +41,11 @@ class DetailsViewController: BaseViewController {
         
     }
     
-    @IBAction func tapOnFavorite(_ sender: UIBarButtonItem) {
+    @IBAction func tapOnFavorite(_ sender: UIButton) {
+        
+        sender.pulse()
         
         if let item = self.selectedCharacter {
-            
-            let icon = item.favorite ? "Desvoritado" : "Favoritado"
-            print("====Favorite Status Changed on Realm ====")
-            print("\(item.name)#\(icon)")
             
             do{
                 try realm.write {
@@ -60,7 +61,7 @@ class DetailsViewController: BaseViewController {
         
     }
     
-    func setupCell() {
+    private func setupCell() {
         
         setStarStatus()
         
@@ -72,21 +73,30 @@ class DetailsViewController: BaseViewController {
         
         self.descriptionLabel.text = selectedCharacter?.resultDescription
         
+        if descriptionLabel.text?.count == 0 {
+            topConstraint.constant = 0
+            bottomConstraint.constant = 0
+        }
+        
         if let imagem = selectedCharacter?.thumbnail {
             self.detailImageView.sd_setImage(with: URL(string: ("\(imagem)")), placeholderImage: UIImage(named: "MarvelLogo"))
         }
         
+        favoriteView.layer.borderColor = UIColor.black.cgColor
+        favoriteView.layer.borderWidth = 0.5
+        
     }
     
-    func setStarStatus(){
+    private func setStarStatus(){
         
         if let item = self.selectedCharacter {
             if item.favorite {
-                self.navigationItem.rightBarButtonItem?.setBackgroundImage(UIImage(named: "filledStar"), for: .normal, barMetrics: .default)
+                favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             }
             else{
-                self.navigationItem.rightBarButtonItem?.setBackgroundImage(UIImage(named: "emptyStar"), for: .normal, barMetrics: .default)
+                favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             }
+            
         }
         
     }
@@ -132,29 +142,29 @@ extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
         
         if section == 0 {
             
-            guard let firstThreeOnly = self.selectedCharacter?.comicsItems.count else { return 0 }
+//            guard let firstThreeOnly = self.selectedCharacter?.comicsItems.count else { return 0 }
             
-            if firstThreeOnly > 3 {
-                return 3
-            }
-            else {
+//            if firstThreeOnly > 3 {
+//                return 3
+//            }
+//            else {
                 return self.selectedCharacter?.comicsItems.count ?? 0
-            }
+//            }
             
         }
         if section == 1 {
             
-            guard let firstThreeOnly = self.selectedCharacter?.seriesItems.count else { return 0 }
+//            guard let firstThreeOnly = self.selectedCharacter?.seriesItems.count else { return 0 }
             
-            if firstThreeOnly > 3 {
-                return 3
-            }
-            else {
+//            if firstThreeOnly > 3 {
+//                return 3
+//            }
+//            else {
                 return self.selectedCharacter?.seriesItems.count ?? 0
-            }
+ //           }
             
         }
-            
+        
         else {
             
             return 0
@@ -173,8 +183,6 @@ extension DetailsViewController : UITableViewDelegate, UITableViewDataSource {
         cell.nameLabel.text = name
         
         //let image : String = (indexPath.section == 0 ? self.selectedCharacter?.comicsItems[indexPath.row].resourceURI : self.selectedCharacter?.seriesItems[indexPath.row].resourceURI)!
-        
-        //cell.imageView?.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "MarvelLogo"))
         
         return cell
         

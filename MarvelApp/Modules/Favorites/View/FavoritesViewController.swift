@@ -21,17 +21,7 @@ class FavoritesViewController: BaseViewController {
         
         self.addRefreshingControl()
         
-        //LOADS AND FILTER THE FAVORITES
-        //self.controller.loadUpFavorites()
-        
-        //CollectionView Methods
-        self.favoriteCollectionView.delegate = self
-        self.favoriteCollectionView.dataSource = self
-        
-        //Registering Cell
-        self.favoriteCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
-        
-        setLayout(for: favoriteCollectionView)
+        registerCells()
         
     }
 
@@ -41,6 +31,17 @@ class FavoritesViewController: BaseViewController {
         
         self.controller.loadUpFavorites()
         self.favoriteCollectionView.reloadData()
+        
+    }
+    
+    private func registerCells() {
+        
+        //CollectionView Methods
+        self.favoriteCollectionView.delegate = self
+        self.favoriteCollectionView.dataSource = self
+        
+        //Registering Cell
+        self.favoriteCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
         
     }
     
@@ -78,7 +79,7 @@ class FavoritesViewController: BaseViewController {
     
 }
 
-extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -98,19 +99,46 @@ extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDa
         
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        let padding: CGFloat =  50
-//        let collectionViewSize = collectionView.frame.size.width - padding
-//
-//        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         self.controller.saveIndexForSelectedFavorite(index: indexPath.row)
         performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return CGSize(width: (view.frame.width / 3) - 8, height: 180)
+        case .pad:
+            return CGSize(width: view.frame.width / 3.4 , height: view.frame.height / 4)
+        case .tv:
+            break
+        case .carPlay:
+            break
+        case .mac:
+            break
+        case .unspecified:
+            break
+        }
+        
+        return CGSize(width: 100, height: 120)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        return .init(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return .init(2.0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return .init(6.0)
     }
     
 }

@@ -12,6 +12,7 @@ import CoreData
 class HomeViewController: BaseViewController {
     
     let controller = CharactersController()
+    private var isFethingNewPage = false
     
     @IBOutlet weak var charactersCollectionView: UICollectionView!
     
@@ -23,6 +24,8 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        registerCells()
+        
         self.addRefreshingControl()
         
         //Initializes the controller and makes the first request
@@ -30,20 +33,25 @@ class HomeViewController: BaseViewController {
         
         self.controller.delegate = self
         
-        //CollectionView Methods
-        self.charactersCollectionView.delegate = self
-        self.charactersCollectionView.dataSource = self
+        navigationController?.navigationBar.prefersLargeTitles = true
         
-        //Registering Cell
-        self.charactersCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
-        
-        setLayout(for: charactersCollectionView)
         startActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         self.charactersCollectionView.reloadData()
+        
+    }
+    
+    private func registerCells() {
+        
+        //CollectionView Methods
+        self.charactersCollectionView.delegate = self
+        self.charactersCollectionView.dataSource = self
+        
+        //Registering Cell
+        self.charactersCollectionView.register(UINib(nibName: CustomCollectionViewCell.cell, bundle: nil), forCellWithReuseIdentifier: CustomCollectionViewCell.cell)
         
     }
     
@@ -61,12 +69,26 @@ class HomeViewController: BaseViewController {
         
     }
     
-    @IBAction func getMoreData(_ sender: UIBarButtonItem) {
+    //MARK: - Fetch More Pages
+    private func startFetchingNewPage() {
         
-        startActivityIndicator()
-        self.controller.requestAnotherPage()
+        if isFethingNewPage {
+            print("Another request is already under way")
+        }else {
+            
+            isFethingNewPage = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                
+                self.startActivityIndicator()
+                self.controller.requestAnotherPage()
+                
+            })
+            
+        }
         
     }
+    
     
     func addRefreshingControl(){
         
@@ -87,7 +109,7 @@ class HomeViewController: BaseViewController {
     
 }
 
-extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.controller.getNumberOfRows()
@@ -105,41 +127,63 @@ extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSou
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let padding: CGFloat =  50
-        let collectionViewSize = collectionView.frame.size.width - padding
-        
-        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        //print("\(counter)#Index: \(indexPath.row) # \(self.controller.getNumberOfRows())")
-        
-        counter += 1
-        
-        let totalOfItems = self.controller.getNumberOfRows()
-        
-        if counter > totalOfItems {
-            
-            if (indexPath.row + 1) == (totalOfItems - 4 ) {
-
-                self.controller.requestAnotherPage()
-                
-                startActivityIndicator()
-                
-            }
-            
-        }
-        
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         self.controller.saveIndexSelected(index: indexPath.row)
         performSegue(withIdentifier: DetailsViewController.identifier, sender: self)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return CGSize(width: (view.frame.width / 3) - 8, height: 180)
+        case .pad:
+            return CGSize(width: view.frame.width / 3.4 , height: view.frame.height / 4)
+        case .tv:
+            break
+        case .carPlay:
+            break
+        case .mac:
+            break
+        case .unspecified:
+            break
+        }
+        
+        return CGSize(width: 100, height: 120)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        return .init(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return .init(2.0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return .init(6.0)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        guard scrollView.isDragging else {return}
+        
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollFrameHeight = scrollView.frame.height
+        
+        if offsetY > (contentHeight - scrollFrameHeight) {
+            
+            if !isFethingNewPage {
+                startFetchingNewPage()
+            }
+            
+        }
         
     }
     
@@ -152,8 +196,8 @@ extension HomeViewController : CharactersControllerDelegate {
         
         DispatchQueue.main.async {
             self.charactersCollectionView.reloadData()
-            
             self.stopActivityIndicator()
+            self.isFethingNewPage = false
         }
         
     }
